@@ -1,0 +1,39 @@
+﻿<Window x:Class="EtiquetasLogistica.MainWindow" 
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" 
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" 
+        Title="Etiquetas Logística" 
+        Height="550" 
+        Width="740" 
+        WindowStartupLocation="CenterScreen"
+        ResizeMode="NoResize">
+    <Grid Margin="10">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="230*"/>
+            <RowDefinition Height="230*"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="2*" />
+            <ColumnDefinition Width="3*" />
+        </Grid.ColumnDefinitions>
+        <!-- PAINEL DE ENTRADA -->
+        <StackPanel Margin="210,25,210,0" VerticalAlignment="Top" Grid.Row="1" Grid.ColumnSpan="2">
+            <TextBlock Text="Destinatário" FontWeight="Bold"/>
+            <TextBox x:Name="TxtDestinatario" Margin="0,5,0,15"/>
+            <TextBlock Text="Nota Fiscal" FontWeight="Bold"/>
+            <TextBox x:Name="TxtNotaFiscal" Margin="0,5,0,15"/>
+            <TextBlock Text="Qtd. de Volumes" FontWeight="Bold"/>
+            <TextBox x:Name="TxtVolumes" Margin="0,5,0,15"/>
+            <Button Content="Imprimir Etiquetas" Height="40" Click="Imprimir_Click"/>
+        </StackPanel>
+        <!-- PREVIEW DA ETIQUETA -->
+        <Border BorderBrush="Black" BorderThickness="2" Width="350" Height="250" 
+                HorizontalAlignment="Left" VerticalAlignment="Top" Margin="184,0,0,0" 
+                Grid.ColumnSpan="2" Grid.RowSpan="2">
+            <StackPanel Margin="10">
+                <TextBlock x:Name="LblDestinatarioPreview" FontSize="20" FontWeight="Bold" TextWrapping="Wrap"/>
+                <TextBlock x:Name="LblNotaPreview" Margin="0,10,0,0" FontSize="14"/>
+                <TextBlock x:Name="LblVolumePreview" Margin="0,10,0,0" FontSize="14"/>
+            </StackPanel>
+        </Border>
+    </Grid>
+</Window>
