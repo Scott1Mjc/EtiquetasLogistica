@@ -1,3 +1,8 @@
 <Solution>
-  <Project Path="EtiquetasLogistica.csproj" Id="c0bf7d70-23c6-40ca-98e2-a106921138e8" />
+  <Configurations>
+    <Platform Name="x64" />
+  </Configurations>
+  <Project Path="EtiquetasLogistica.csproj" Id="c0bf7d70-23c6-40ca-98e2-a106921138e8">
+    <Platform Project="x64" />
+  </Project>
 </Solution>
