@@ -1,0 +1,35 @@
+﻿<Window x:Class="EtiquetasLogistica.HistoricoWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Histórico de Impressões"
+        Height="400"
+        Width="700"
+        WindowStartupLocation="CenterOwner"
+        ResizeMode="NoResize">
+
+    <Grid Margin="10">
+        <DataGrid x:Name="GridHistorico"
+                  AutoGenerateColumns="False"
+                  IsReadOnly="True"
+                  CanUserAddRows="False">
+
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Destinatário"
+                                    Binding="{Binding Destinatario}"
+                                    Width="2*" />
+
+                <DataGridTextColumn Header="Nota Fiscal"
+                                    Binding="{Binding NotaFiscal}"
+                                    Width="*" />
+
+                <DataGridTextColumn Header="Volumes"
+                                    Binding="{Binding TotalVolumes}"
+                                    Width="*" />
+
+                <DataGridTextColumn Header="Data"
+                                    Binding="{Binding DataImpressao}"
+                                    Width="*" />
+            </DataGrid.Columns>
+        </DataGrid>
+    </Grid>
+</Window>

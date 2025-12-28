@@ -1,17 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using EtiquetasLogistica.Data;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace EtiquetasLogistica
 {
@@ -19,12 +9,18 @@ namespace EtiquetasLogistica
     {
         private int totalVolumes = 1;
         private int volumeAtual = 1;
+        private DatabaseService _databaseService;
 
         public MainWindow()
         {
             InitializeComponent();
+
+            _databaseService = new DatabaseService();
+
             TxtDestinatario.TextChanged += AtualizarPreview_TextChanged;
             TxtNotaFiscal.TextChanged += AtualizarPreview_TextChanged;
+
+            AtualizarPreview();
         }
 
         private void TxtVolumes_TextChanged(object sender, TextChangedEventArgs e)
@@ -36,6 +32,8 @@ namespace EtiquetasLogistica
 
                 LblVolumeAtualPreview.Text = volumeAtual.ToString();
                 LblVolumePreview.Text = totalVolumes.ToString();
+
+                AtualizarPreview();
             }
             else
             {
@@ -89,25 +87,62 @@ namespace EtiquetasLogistica
             }
         }
 
+        private void Historico_Click(object sender, RoutedEventArgs e)
+        {
+            var janela = new HistoricoWindow
+            {
+                Owner = this
+            };
+            janela.ShowDialog();
+        }
+
         private async void Imprimir_Click(object sender, RoutedEventArgs e)
         {
+
+            if (string.IsNullOrWhiteSpace(TxtDestinatario.Text) || string.IsNullOrWhiteSpace(TxtNotaFiscal.Text))
+            {
+                MessageBox.Show(
+                    "Preencha o destinatário e a nota fiscal.",
+                    "Atenção",
+                    MessageBoxButton.OK,
+                    MessageBoxImage.Warning
+                );
+                return;
+            }
+
+            if (!int.TryParse(TxtVolumes.Text, out totalVolumes))
+            {
+                MessageBox.Show("Número de volumes inválido.", "Erro", MessageBoxButton.OK, MessageBoxImage.Error); //Validar se a messageboxbutton é realmente necessária
+                return;
+
+            }
+
             for (int i = 1; i <= totalVolumes; i++)
             {
                 volumeAtual = i;
 
                 AtualizarPreview();
-                await Task.Delay(500);
+                await Task.Delay(500); // Lembrar de remover esse delay depois
 
                 /* AQUI entra a impressão real depois
                  ImprimirEtiqueta(volumeAtual, totalVolumes); */
             }
 
+            _databaseService.SalvarImpressao(
+                TxtDestinatario.Text,
+                TxtNotaFiscal.Text,
+                totalVolumes
+            );
+
+            volumeAtual = 1;
             AtualizarPreview();
+
+            MessageBox.Show("Impressão registrada no histórico");
         }
 
         private void ImprimirEtiqueta(int volume, int total)
         {
-            /* Aqui futuramente: - gerar ZPL / EPL - ou enviar para GC420t */            
+            /* Aqui futuramente: - gerar ZPL / EPL - ou enviar para GC420t */
         }
     }
 }
